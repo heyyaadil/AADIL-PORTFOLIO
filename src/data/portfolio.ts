@@ -63,7 +63,7 @@ const DATA: PortfolioData = {
   ],
   facts: [
     { k: "Studying", v: "Computer Science, first year" },
-    { k: "Institution", v: "Add your college or university", ph: true },
+    { k: "Institution", v: "BIT Bangalore" },
     { k: "Interests", v: "Software development, emerging tech, UI design" },
     { k: "Currently", v: "Learning, building, exploring" }
   ],
