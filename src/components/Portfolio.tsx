@@ -6,6 +6,7 @@ import DATA from '@/data/portfolio'
 import Backdrop from './Backdrop'
 import Nav from './Nav'
 import Hero from './Hero'
+import ScrollDecoder from './ScrollDecoder'
 import About from './About'
 import Skills from './Skills'
 import Projects from './Projects'
@@ -60,6 +61,7 @@ export default function Portfolio() {
       <Nav active={active} />
       <main id="main-content" tabIndex={-1}>
         <Hero key={'hero' + reduced} />
+        <ScrollDecoder />
         <About />
         <Skills />
         <Projects />

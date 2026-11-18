@@ -355,5 +355,324 @@ html.page-paused *,html.page-paused *::before,html.page-paused *::after{animatio
   100%{transform:rotateX(62deg) rotateY(15deg) rotateZ(360deg)}
 }
 @media(prefers-reduced-motion:reduce){
-  .saturn-container,.saturn-glow,.orbit-titan,.orbit-enceladus{animation:none!important}
+  .saturn-container,.saturn-glow,.orbit-titan,.orbit-enceladus,.saturn-axial-stripes{animation:none!important}
+}
+
+/* Saturn continuous axial cloud rotation */
+.saturn-axial-stripes{
+  animation:saturn-cloud-spin 14s linear infinite;
+}
+@keyframes saturn-cloud-spin{
+  0%{transform:translateX(0px)}
+  100%{transform:translateX(-60px)}
+}
+
+/* ========================================================
+   SCROLL DECODER: NUMBERS → LETTERS → BEYOND THE ORDINARY
+   ======================================================== */
+.decoder-section {
+  position: relative;
+  width: 100%;
+  height: 260vh;
+  background: transparent;
+  z-index: 10;
+}
+
+.decoder-stage {
+  position: relative;
+  width: 100%;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  background: radial-gradient(circle at 50% 50%, rgba(14, 16, 24, 0.95), #0b0c10 85%);
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.decoder-canvas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.decoder-backdrop {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.decoder-grid-glow {
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(ellipse at 50% 45%, rgba(55, 227, 208, 0.12), rgba(139, 92, 246, 0.08) 40%, transparent 70%),
+    linear-gradient(rgba(255, 255, 255, 0.02) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
+  background-size: 100% 100%, 48px 48px, 48px 48px;
+  background-position: center center;
+  opacity: 0.8;
+}
+
+.decoder-scanlines {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to bottom,
+    rgba(255,255,255,0),
+    rgba(255,255,255,0) 50%,
+    rgba(0, 0, 0, 0.3) 50%,
+    rgba(0, 0, 0, 0.3)
+  );
+  background-size: 100% 4px;
+  opacity: 0.35;
+}
+
+.decoder-content {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  width: 100%;
+  max-width: 1280px;
+  padding: 0 1.5rem;
+}
+
+/* Telemetry Header */
+.decoder-telemetry {
+  display: flex;
+  align-items: center;
+  gap: 1.25rem;
+  margin-bottom: 1.8rem;
+  font-family: var(--display), monospace;
+  font-size: 0.82rem;
+  letter-spacing: 0.12em;
+}
+
+.telemetry-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.35rem 0.85rem;
+  border-radius: 99px;
+  border: 1px solid rgba(55, 227, 208, 0.35);
+  background: rgba(55, 227, 208, 0.08);
+  color: var(--d);
+  font-weight: 600;
+}
+
+.telemetry-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--d);
+  box-shadow: 0 0 10px var(--d);
+  animation: telemetry-blink 1.4s ease-in-out infinite alternate;
+}
+
+@keyframes telemetry-blink {
+  0% { opacity: 0.4; transform: scale(0.8); }
+  100% { opacity: 1; transform: scale(1.3); }
+}
+
+.telemetry-status {
+  color: var(--mute);
+  font-weight: 500;
+}
+
+/* MAIN DECODER TITLE */
+.decoder-heading-wrap {
+  position: relative;
+  margin-bottom: 2rem;
+  width: 100%;
+}
+
+.decoder-main-title {
+  margin: 0;
+  font: 800 clamp(2.8rem, 7.8vw, 6.8rem) / 1.05 var(--display);
+  letter-spacing: -0.035em;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.4em 0.35em;
+  user-select: none;
+}
+
+.decoder-word {
+  display: inline-flex;
+  white-space: nowrap;
+}
+
+.decoder-char {
+  display: inline-block;
+  min-width: 0.62em;
+  text-align: center;
+  font-family: var(--display), monospace;
+  transition: color 0.15s, text-shadow 0.15s, transform 0.2s;
+  color: rgba(255, 255, 255, 0.35);
+}
+
+/* Scrambling State */
+.decoder-char:not(.char-locked):not(.char-decoding) {
+  color: rgba(55, 227, 208, 0.6);
+  text-shadow: 0 0 8px rgba(55, 227, 208, 0.4);
+  font-family: monospace;
+}
+
+/* Active Glitch / Quantum Decrypting State */
+.decoder-char.char-decoding {
+  color: #ffffff;
+  text-shadow:
+    -2px 0 rgba(55, 227, 208, 0.9),
+    2px 0 rgba(255, 95, 196, 0.9),
+    0 0 16px rgba(111, 143, 255, 0.85);
+  transform: translateY(-2px) scale(1.08);
+  font-weight: 800;
+}
+
+/* Final Locked Word State */
+.decoder-char.char-locked {
+  background: linear-gradient(135deg, #ffffff 15%, #b9d8ff 45%, #37e3d0 85%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  text-shadow: 0 0 25px rgba(55, 227, 208, 0.35);
+  font-weight: 800;
+  animation: lock-settle 0.4s var(--ease);
+}
+
+@keyframes lock-settle {
+  0% { transform: scale(1.22); filter: brightness(2); }
+  100% { transform: scale(1); filter: brightness(1); }
+}
+
+.decoder-heading-aura {
+  position: absolute;
+  left: 10%;
+  right: 10%;
+  top: 15%;
+  bottom: 15%;
+  background: radial-gradient(ellipse at 50% 50%, rgba(55, 227, 208, 0.2), rgba(139, 92, 246, 0.12) 50%, transparent 75%);
+  filter: blur(48px);
+  pointer-events: none;
+  z-index: -1;
+}
+
+/* 3 SUBSEQUENT LINES SEQUENCE */
+.decoder-sub-sequence {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.1rem;
+  width: 100%;
+  min-height: 170px;
+}
+
+.sub-line {
+  transition: opacity 0.2s, transform 0.25s, filter 0.2s;
+  will-change: transform, opacity, filter;
+}
+
+/* LINE 1: I AM AADIL */
+.line-1-aadil {
+  font: 700 clamp(1.4rem, 3.2vw, 2.3rem) / 1.2 var(--display);
+  letter-spacing: 0.08em;
+}
+
+.aadil-tagline {
+  background: linear-gradient(120deg, #ffd89b 0%, #ffa66b 40%, #ff5fc4 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  text-shadow: 0 0 30px rgba(255, 166, 107, 0.45);
+}
+
+/* LINE 2: CREATIVE DEVELOPER */
+.line-2-role {
+  font-family: monospace, var(--body);
+  font-weight: 600;
+  font-size: clamp(1.05rem, 2.2vw, 1.55rem);
+  letter-spacing: 0.14em;
+  color: var(--d);
+  display: inline-flex;
+  align-items: center;
+  padding: 0.4rem 1.1rem;
+  border-radius: 8px;
+  background: rgba(55, 227, 208, 0.06);
+  border: 1px solid rgba(55, 227, 208, 0.25);
+  box-shadow: 0 0 24px -4px rgba(55, 227, 208, 0.25);
+}
+
+.role-cursor {
+  display: inline-block;
+  margin-left: 0.35rem;
+  color: var(--d);
+  font-weight: 900;
+  animation: cursor-flicker 0.75s steps(2, start) infinite;
+}
+
+@keyframes cursor-flicker {
+  to { visibility: hidden; }
+}
+
+/* LINE 3: BUILDING DIGITAL EXPERIENCES */
+.line-3-experience {
+  position: relative;
+  font: 600 clamp(0.95rem, 1.8vw, 1.35rem) / 1.4 var(--body);
+  color: #c7cad1;
+  text-transform: uppercase;
+  padding-bottom: 0.6rem;
+}
+
+.experience-neon-sweep {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  border-radius: 2px;
+  background: linear-gradient(90deg, transparent, var(--d) 25%, var(--c) 55%, var(--b) 85%, transparent);
+  transform-origin: center left;
+  box-shadow: 0 0 14px var(--d);
+}
+
+/* Scroll Hint */
+.decoder-scroll-hint {
+  position: absolute;
+  bottom: 2rem;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.35rem;
+  color: var(--mute);
+  font-size: 0.76rem;
+  letter-spacing: 0.18em;
+  font-weight: 600;
+  transition: opacity 0.4s ease;
+}
+
+.hint-chevron {
+  font-size: 1.1rem;
+  color: var(--d);
+  animation: hint-bounce 1.6s ease-in-out infinite;
+}
+
+@keyframes hint-bounce {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(6px); }
+}
+
+@media (max-width: 768px) {
+  .decoder-section { height: 280vh; }
+  .decoder-main-title { font-size: clamp(2.3rem, 10vw, 4rem); }
+  .decoder-sub-sequence { min-height: 200px; gap: 0.85rem; }
 }

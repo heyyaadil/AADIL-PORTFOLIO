@@ -23,25 +23,25 @@ export default function Hero() {
               </span>
             ))}
           </h1>
-          <div className="name-shape saturn-shape" aria-label="Planet Saturn" role="img">
+          <div className="name-shape saturn-shape" aria-label="Planet Saturn rotating on its axis" role="img">
             <div className="saturn-container">
-              {/* Golden atmospheric glow */}
+              {/* Golden atmospheric halo */}
               <div className="saturn-glow"></div>
 
-              {/* Orbiting Moon: Titan */}
+              {/* Orbiting Moon 1: Titan */}
               <div className="moon-orbit orbit-titan">
                 <div className="moon moon-titan" title="Titan"></div>
               </div>
 
-              {/* Orbiting Moon: Enceladus */}
+              {/* Orbiting Moon 2: Enceladus */}
               <div className="moon-orbit orbit-enceladus">
                 <div className="moon moon-enceladus" title="Enceladus"></div>
               </div>
 
-              {/* Realistic SVG Planet Saturn with 3D Ring System */}
+              {/* Realistic SVG Planet Saturn with 3D Ring System and Continuous Axial Rotation */}
               <svg viewBox="0 0 200 200" className="saturn-svg" aria-hidden="true">
                 <defs>
-                  {/* Clip paths to split rings into back (behind planet) and front (in front of planet) */}
+                  {/* Clip paths for rings and planet sphere */}
                   <clipPath id="ringBackClip">
                     <rect x="0" y="0" width="200" height="100" />
                   </clipPath>
@@ -52,21 +52,42 @@ export default function Hero() {
                     <circle cx="100" cy="100" r="42" />
                   </clipPath>
 
-                  {/* Atmospheric cloud bands */}
-                  <linearGradient id="saturnBands" x1="15%" y1="0%" x2="85%" y2="100%">
-                    <stop offset="0%" stopColor="#edd09b" />
-                    <stop offset="12%" stopColor="#cca067" />
-                    <stop offset="22%" stopColor="#f3ddb3" />
-                    <stop offset="34%" stopColor="#ba8651" />
-                    <stop offset="46%" stopColor="#e9cca0" />
-                    <stop offset="58%" stopColor="#c58e58" />
-                    <stop offset="70%" stopColor="#dfb784" />
-                    <stop offset="84%" stopColor="#aa723e" />
-                    <stop offset="100%" stopColor="#7a4f29" />
-                  </linearGradient>
+                  {/* Seamless repeating cloud band pattern for axial rotation */}
+                  <pattern
+                    id="saturnAxialBands"
+                    x="0"
+                    y="0"
+                    width="120"
+                    height="84"
+                    patternUnits="userSpaceOnUse"
+                  >
+                    <g className="saturn-axial-stripes">
+                      {/* Cycle 1 (width 60) */}
+                      <rect x="0" y="0" width="60" height="9" fill="#7a4f29" />
+                      <rect x="0" y="9" width="60" height="8" fill="#aa723e" />
+                      <rect x="0" y="17" width="60" height="11" fill="#dfb784" />
+                      <rect x="0" y="28" width="60" height="8" fill="#c58e58" />
+                      <rect x="0" y="36" width="60" height="10" fill="#e9cca0" />
+                      <rect x="0" y="46" width="60" height="9" fill="#ba8651" />
+                      <rect x="0" y="55" width="60" height="10" fill="#f3ddb3" />
+                      <rect x="0" y="65" width="60" height="9" fill="#cca067" />
+                      <rect x="0" y="74" width="60" height="10" fill="#edd09b" />
 
-                  {/* 3D planetary lighting terminator (sunlit top-left, shadowed bottom-right) */}
-                  <radialGradient id="saturnLighting" cx="36%" cy="32%" r="68%">
+                      {/* Cycle 2 (width 60 repeat) */}
+                      <rect x="60" y="0" width="60" height="9" fill="#7a4f29" />
+                      <rect x="60" y="9" width="60" height="8" fill="#aa723e" />
+                      <rect x="60" y="17" width="60" height="11" fill="#dfb784" />
+                      <rect x="60" y="28" width="60" height="8" fill="#c58e58" />
+                      <rect x="60" y="36" width="60" height="10" fill="#e9cca0" />
+                      <rect x="60" y="46" width="60" height="9" fill="#ba8651" />
+                      <rect x="60" y="55" width="60" height="10" fill="#f3ddb3" />
+                      <rect x="60" y="65" width="60" height="9" fill="#cca067" />
+                      <rect x="60" y="74" width="60" height="10" fill="#edd09b" />
+                    </g>
+                  </pattern>
+
+                  {/* Atmospheric lighting terminator (fixed sun direction while planet rotates) */}
+                  <radialGradient id="saturnLighting" cx="35%" cy="30%" r="68%">
                     <stop offset="0%" stopColor="#ffffff" stopOpacity="0.45" />
                     <stop offset="35%" stopColor="#ffd89b" stopOpacity="0.1" />
                     <stop offset="60%" stopColor="#0b0c10" stopOpacity="0.65" />
@@ -97,45 +118,35 @@ export default function Hero() {
                   </linearGradient>
                 </defs>
 
-                {/* Tilted Ring System Coordinate Space */}
-                <g transform="rotate(-23 100 100)">
-                  {/* 1. BACK RINGS (rendered behind planet) */}
+                {/* 23 Degree Natural Axial Tilt */}
+                <g transform="rotate(-23 100 100)" className="saturn-system">
+                  {/* 1. BACK RINGS (behind planet) */}
                   <g clipPath="url(#ringBackClip)">
-                    {/* Ring C (Inner crepe ring) */}
                     <ellipse cx="100" cy="100" rx="58" ry="16" fill="none" stroke="url(#ringGradC)" strokeWidth="12" opacity="0.45" />
-                    {/* Ring B (Dense main ring) */}
                     <ellipse cx="100" cy="100" rx="76" ry="21" fill="none" stroke="url(#ringGradB)" strokeWidth="16" />
-                    {/* Cassini Division */}
                     <ellipse cx="100" cy="100" rx="85.5" ry="23.6" fill="none" stroke="#0b0c10" strokeWidth="1.8" />
-                    {/* Ring A (Outer ring) */}
                     <ellipse cx="100" cy="100" rx="92" ry="25.5" fill="none" stroke="url(#ringGradA)" strokeWidth="6.5" opacity="0.9" />
-                    {/* Planet shadow cast onto back rings */}
+                    {/* Shadow of globe cast onto back rings */}
                     <ellipse cx="98" cy="98" rx="42" ry="16" fill="#000000" opacity="0.65" />
                   </g>
 
-                  {/* 2. PLANET GLOBE */}
-                  <g>
-                    {/* Base Gas Giant Textured Bands */}
-                    <circle cx="100" cy="100" r="42" fill="url(#saturnBands)" />
-                    {/* Ring Shadow cast across globe */}
-                    <g clipPath="url(#planetGlobeClip)">
-                      <path d="M 50 100 Q 100 106 150 100 Q 100 96 50 100 Z" fill="#000000" opacity="0.65" />
-                    </g>
-                    {/* Atmospheric Lighting & Shadow */}
+                  {/* 2. PLANET GLOBE WITH CONTINUOUS AXIAL ROTATION */}
+                  <g clipPath="url(#planetGlobeClip)">
+                    {/* Rotating cloud band surface */}
+                    <rect x="58" y="58" width="84" height="84" fill="url(#saturnAxialBands)" />
+                    {/* Ring Shadow across globe */}
+                    <path d="M 50 100 Q 100 106 150 100 Q 100 96 50 100 Z" fill="#000000" opacity="0.68" />
+                    {/* Fixed sunlit 3D spherical shading */}
                     <circle cx="100" cy="100" r="42" fill="url(#saturnLighting)" />
-                    {/* Subtle golden atmospheric rim glow */}
-                    <circle cx="100" cy="100" r="42.3" fill="none" stroke="rgba(255, 222, 173, 0.4)" strokeWidth="1.2" />
+                    {/* Golden atmospheric rim glow */}
+                    <circle cx="100" cy="100" r="42" fill="none" stroke="rgba(255, 222, 173, 0.45)" strokeWidth="1.4" />
                   </g>
 
-                  {/* 3. FRONT RINGS (rendered in front of planet) */}
+                  {/* 3. FRONT RINGS (in front of planet) */}
                   <g clipPath="url(#ringFrontClip)">
-                    {/* Ring C (Inner crepe ring) */}
                     <ellipse cx="100" cy="100" rx="58" ry="16" fill="none" stroke="url(#ringGradC)" strokeWidth="12" opacity="0.45" />
-                    {/* Ring B (Dense main ring) */}
                     <ellipse cx="100" cy="100" rx="76" ry="21" fill="none" stroke="url(#ringGradB)" strokeWidth="16" />
-                    {/* Cassini Division */}
                     <ellipse cx="100" cy="100" rx="85.5" ry="23.6" fill="none" stroke="#0b0c10" strokeWidth="1.8" />
-                    {/* Ring A (Outer ring) */}
                     <ellipse cx="100" cy="100" rx="92" ry="25.5" fill="none" stroke="url(#ringGradA)" strokeWidth="6.5" opacity="0.9" />
                   </g>
                 </g>
