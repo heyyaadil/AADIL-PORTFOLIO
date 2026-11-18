@@ -32,7 +32,7 @@ export default function Hero() {
                 <span className="ar" aria-hidden="true">→</span>
               </a>
               <a className="btn" href="#contact">
-                Get In Touch
+                Contact Me
                 <span className="ar" aria-hidden="true">→</span>
               </a>
             </div>

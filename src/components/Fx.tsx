@@ -37,7 +37,7 @@ export default function Fx() {
           const target = e.target as HTMLElement | null
           const a = target?.closest('a[href^="#"]') as HTMLAnchorElement | null
           const h = a?.getAttribute('href')
-          const el = h && h.length > 1 ? (document.querySelector(h) as HTMLElement | null) : null
+          const el = h && h.length > 1 ? document.getElementById(h.slice(1)) : null
           if (!el) return
           e.preventDefault()
           lenis?.scrollTo(el, { offset: -64, duration: 1.5 })
@@ -60,11 +60,6 @@ export default function Fx() {
       g.to('.name', {
         yPercent: -8,
         opacity: 0.3,
-        ease: 'none',
-        scrollTrigger: sc('#home', 'top top', 'bottom top'),
-      })
-      g.to('.core', {
-        yPercent: 12,
         ease: 'none',
         scrollTrigger: sc('#home', 'top top', 'bottom top'),
       })
@@ -97,10 +92,10 @@ export default function Fx() {
             scrollTrigger: { trigger: el, start: 'top 88%', once: true },
           })
           tl.from(h, {
-            y: 46,
+            y: 34,
             opacity: 0,
-            filter: 'blur(10px)',
-            letterSpacing: '.05em',
+            clipPath: 'inset(0 0 100% 0)',
+            letterSpacing: '.015em',
             duration: 1.2,
             ease: 'expo.out',
           })
@@ -129,9 +124,9 @@ export default function Fx() {
       g.utils.toArray<HTMLElement>('.shot').forEach((s) => {
         g.fromTo(
           s,
-          { clipPath: 'inset(12% 8% 12% 8% round 24px)' },
+          { clipPath: 'ellipse(0% 0% at 50% 65%)' },
           {
-            clipPath: 'inset(0% 0% 0% 0% round 24px)',
+            clipPath: 'ellipse(100% 100% at 50% 50%)',
             duration: 1.4,
             ease: 'expo.out',
             scrollTrigger: { trigger: s, start: 'top 85%', once: true },
@@ -168,8 +163,18 @@ export default function Fx() {
             r.classList.add('on')
             d.classList.add('on')
           }
-          rq[0](e.clientX)
-          rq[1](e.clientY)
+          r.classList.add('on')
+          d.classList.add('on')
+          const target = (e.target as HTMLElement | null)?.closest('.btn,.logo,.gh,button')
+          let gx = e.clientX
+          let gy = e.clientY
+          if (target) {
+            const b = target.getBoundingClientRect()
+            gx += (b.left + b.width / 2 - gx) * 0.12
+            gy += (b.top + b.height / 2 - gy) * 0.2
+          }
+          rq[0](gx)
+          rq[1](gy)
           dq[0](e.clientX)
           dq[1](e.clientY)
         },
@@ -204,7 +209,7 @@ export default function Fx() {
         el.addEventListener(
           'pointerleave',
           () => {
-            g.to(el, { x: 0, y: 0, duration: 0.9, ease: 'power3.out' })
+            g.to(el, { x: 0, y: 0, duration: 0.9, ease: 'elastic.out(1,.5)' })
           },
           o
         )
@@ -246,6 +251,15 @@ export default function Fx() {
       })
     }
 
+    document.documentElement.addEventListener(
+      'pointerleave',
+      () => {
+        if (ring.current) ring.current.classList.remove('on')
+        if (dot.current) dot.current.classList.remove('on')
+      },
+      o
+    )
+
     const rf = () => ScrollTrigger.refresh()
     window.addEventListener('load', rf, o)
     const rt = setTimeout(rf, 1500)
@@ -264,8 +278,8 @@ export default function Fx() {
 
   return (
     <>
-      <div className="cur" ref={ring}></div>
-      <div className="dot" ref={dot}></div>
+      <div className="cur" ref={ring} aria-hidden="true"></div>
+      <div className="dot" ref={dot} aria-hidden="true"></div>
     </>
   )
 }

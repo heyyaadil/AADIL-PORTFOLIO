@@ -1,12 +1,31 @@
 'use client'
 
-import { useState } from 'react'
+import React, { useState } from 'react'
 import DATA from '@/data/portfolio'
 import { Heading } from './Reveal'
 
 export default function Achievements() {
   const [k, setK] = useState(0)
   const a = DATA.achievements[k]
+
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLButtonElement>, i: number) => {
+    let next = i
+    if (e.key === 'ArrowRight' || e.key === 'ArrowDown') {
+      next = (i + 1) % DATA.achievements.length
+    } else if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') {
+      next = (i - 1 + DATA.achievements.length) % DATA.achievements.length
+    } else if (e.key === 'Home') {
+      next = 0
+    } else if (e.key === 'End') {
+      next = DATA.achievements.length - 1
+    } else {
+      return
+    }
+    e.preventDefault()
+    setK(next)
+    const tabEl = document.getElementById('achievement-tab-' + next)
+    tabEl?.focus()
+  }
 
   return (
     <section id="achievements">
@@ -22,14 +41,24 @@ export default function Achievements() {
                 key={x.key}
                 role="tab"
                 className="tab"
+                id={'achievement-tab-' + i}
+                aria-controls="achievement-panel"
+                tabIndex={i === k ? 0 : -1}
                 aria-selected={i === k}
+                onKeyDown={(e) => handleKeyDown(e, i)}
                 onClick={() => setK(i)}
               >
                 {x.key}
               </button>
             ))}
           </div>
-          <div className="panel" key={k} role="tabpanel">
+          <div
+            className="panel"
+            key={k}
+            role="tabpanel"
+            id="achievement-panel"
+            aria-labelledby={'achievement-tab-' + k}
+          >
             <h3>{a.key}</h3>
             <p>{a.blurb}</p>
             {a.items.length ? (

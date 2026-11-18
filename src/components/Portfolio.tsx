@@ -14,9 +14,20 @@ import Contact from './Contact'
 import Footer from './Footer'
 
 const Fx = dynamic(() => import('./Fx'), { ssr: false })
+const UniverseAccents = dynamic(() => import('./UniverseAccents'), { ssr: false })
 
 export default function Portfolio() {
   const [active, setActive] = useState('home')
+  const [reduced, setReduced] = useState(false)
+
+  useEffect(() => {
+    if (typeof window === 'undefined') return
+    const q = matchMedia('(prefers-reduced-motion: reduce)')
+    setReduced(q.matches)
+    const update = () => setReduced(q.matches)
+    q.addEventListener('change', update)
+    return () => q.removeEventListener('change', update)
+  }, [])
 
   useEffect(() => {
     const io = new IntersectionObserver(
@@ -40,11 +51,15 @@ export default function Portfolio() {
 
   return (
     <>
+      <a className="skip-link" href="#main-content">
+        Skip to content
+      </a>
       <Backdrop />
-      <Fx />
+      <Fx key={'fx' + reduced} />
+      <UniverseAccents key={'accents' + reduced} />
       <Nav active={active} />
-      <main>
-        <Hero />
+      <main id="main-content" tabIndex={-1}>
+        <Hero key={'hero' + reduced} />
         <About />
         <Skills />
         <Projects />
