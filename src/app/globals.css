@@ -246,7 +246,7 @@ html.page-paused *,html.page-paused *::before,html.page-paused *::after{animatio
  html.has-cur,html.has-cur a,html.has-cur button,html.has-cur .shot{cursor:auto}
 }
 
-/* Name & Animated Shape beside AADIL */
+/* Name & Mega Animated Quantum Tesseract beside AADIL */
 .name-row{display:flex;align-items:center;gap:clamp(1.5rem,4vw,3.5rem);flex-wrap:wrap;margin:0 0 .12em -.04em}
 .name-row .name{margin:0}
 .name-shape{
@@ -254,16 +254,17 @@ html.page-paused *,html.page-paused *::before,html.page-paused *::after{animatio
   display:inline-flex;
   align-items:center;
   justify-content:center;
-  width:clamp(4rem,10vw,8.5rem);
-  height:clamp(4rem,10vw,8.5rem);
+  width:clamp(7rem,21vw,15rem);
+  height:clamp(7rem,21vw,15rem);
   user-select:none;
-  perspective:1000px;
+  perspective:1200px;
   cursor:pointer;
-  transition:transform .6s var(--ease);
+  transition:transform .7s var(--ease);
   z-index:2;
+  flex-shrink:0;
 }
-.name-shape:hover{transform:scale(1.12)}
-.shape-orbit{
+.name-shape:hover{transform:scale(1.15) rotate(5deg)}
+.hyper-artifact{
   position:relative;
   width:100%;
   height:100%;
@@ -271,79 +272,177 @@ html.page-paused *,html.page-paused *::before,html.page-paused *::after{animatio
   place-items:center;
   transform-style:preserve-3d;
 }
-.orbit-ring{
+.artifact-corona{
+  position:absolute;
+  inset:-18%;
+  border-radius:50%;
+  background:radial-gradient(circle,rgba(55,227,208,.25),rgba(139,92,246,.2) 42%,rgba(255,95,196,.15) 65%,transparent 75%);
+  filter:blur(32px);
+  pointer-events:none;
+  animation:corona-pulse 5s ease-in-out infinite alternate;
+  transition:filter .5s,opacity .5s;
+}
+.name-shape:hover .artifact-corona{filter:blur(22px);opacity:1}
+.artifact-gyro{
   position:absolute;
   inset:0;
   border-radius:50%;
   pointer-events:none;
 }
-.orbit-ring.ring-1{
-  border:1.5px solid transparent;
+.artifact-gyro.ring-a{
+  border:1.8px solid transparent;
   background:linear-gradient(#0b0c10,#0b0c10) padding-box,linear-gradient(135deg,var(--d),var(--a),var(--c)) border-box;
-  transform:rotateX(68deg) rotateY(15deg);
-  animation:orbit-spin-1 9s linear infinite;
-  box-shadow:0 0 24px -2px rgba(55,227,208,.4);
+  transform:rotateX(68deg) rotateY(18deg);
+  animation:gyro-spin-a 10s linear infinite;
+  box-shadow:0 0 30px -2px rgba(55,227,208,.45);
 }
-.orbit-ring.ring-2{
-  inset:12%;
-  border:1.5px dashed rgba(255,95,196,.6);
-  transform:rotateX(-55deg) rotateY(35deg);
-  animation:orbit-spin-2 7s linear infinite reverse;
+.artifact-gyro.ring-b{
+  inset:10%;
+  border:1.5px dashed rgba(255,95,196,.65);
+  transform:rotateX(-58deg) rotateY(38deg);
+  animation:gyro-spin-b 8s linear infinite reverse;
+  box-shadow:0 0 25px -4px rgba(255,95,196,.35);
 }
-.orbit-ring.ring-3{
-  inset:24%;
-  border:1px solid rgba(111,143,255,.4);
-  transform:rotateY(75deg);
-  animation:orbit-spin-3 11s ease-in-out infinite alternate;
+.artifact-gyro.ring-c{
+  inset:22%;
+  border:1px solid rgba(111,143,255,.45);
+  transform:rotateY(80deg) rotateX(15deg);
+  animation:gyro-spin-c 12s ease-in-out infinite alternate;
 }
-.orbit-dot{
+.orb-node{
   position:absolute;
-  width:8px;
-  height:8px;
   border-radius:50%;
-  background:#37e3d0;
-  box-shadow:0 0 14px 2px #37e3d0,0 0 24px #6f8fff;
-  top:8%;
-  left:50%;
-  transform:translateX(-50%);
-  animation:dot-orbit 4s ease-in-out infinite alternate;
+  pointer-events:none;
 }
-.shape-core{
+.orb-node.node-1{
+  width:9px;
+  height:9px;
+  background:#37e3d0;
+  box-shadow:0 0 14px 2px #37e3d0,0 0 26px #6f8fff;
+  top:6%;
+  left:50%;
+  animation:node-orbit-1 5s ease-in-out infinite alternate;
+}
+.orb-node.node-2{
+  width:7px;
+  height:7px;
+  background:#ff5fc4;
+  box-shadow:0 0 12px 2px #ff5fc4,0 0 22px #ffa66b;
+  bottom:10%;
+  left:22%;
+  animation:node-orbit-2 6.5s ease-in-out infinite alternate;
+}
+.orb-node.node-3{
+  width:6px;
+  height:6px;
+  background:#ffa66b;
+  box-shadow:0 0 10px 2px #ffa66b;
+  top:45%;
+  right:4%;
+  animation:node-orbit-3 4s ease-in-out infinite alternate;
+}
+.artifact-polyhedron{
   position:relative;
-  width:46%;
-  height:46%;
+  width:74%;
+  height:74%;
   display:grid;
   place-items:center;
-  filter:drop-shadow(0 0 16px rgba(55,227,208,.7)) drop-shadow(0 0 28px rgba(139,92,246,.5));
-  animation:core-float 3.5s ease-in-out infinite alternate;
+  filter:drop-shadow(0 0 16px rgba(55,227,208,.65)) drop-shadow(0 0 32px rgba(139,92,246,.5));
+  animation:poly-float 4s ease-in-out infinite alternate;
   transition:transform .5s var(--ease),filter .5s;
 }
-.name-shape:hover .shape-core{
-  transform:scale(1.22) rotate(45deg);
-  filter:drop-shadow(0 0 24px rgba(255,95,196,.9)) drop-shadow(0 0 40px rgba(55,227,208,.8));
+.name-shape:hover .artifact-polyhedron{
+  filter:drop-shadow(0 0 28px rgba(255,95,196,.9)) drop-shadow(0 0 45px rgba(55,227,208,.8));
 }
-.shape-star{
+.tesseract-svg{
   width:100%;
   height:100%;
   overflow:visible;
-  animation:star-spin 18s linear infinite;
 }
-@keyframes orbit-spin-1{to{transform:rotateX(68deg) rotateY(15deg) rotateZ(360deg)}}
-@keyframes orbit-spin-2{to{transform:rotateX(-55deg) rotateY(35deg) rotateZ(-360deg)}}
-@keyframes orbit-spin-3{from{transform:rotateY(75deg) rotateX(15deg)}to{transform:rotateY(75deg) rotateX(-55deg)}}
-@keyframes dot-orbit{
-  0%{transform:translateX(-50%) translateY(0) scale(.8);opacity:.7}
-  50%{transform:translateX(180%) translateY(140%) scale(1.2);opacity:1}
-  100%{transform:translateX(-220%) translateY(120%) scale(.9);opacity:.8}
+.tesseract-outer{
+  transform-origin:60px 60px;
+  animation:tesseract-spin 24s linear infinite;
+  transition:animation-duration .5s;
 }
-@keyframes core-float{
+.name-shape:hover .tesseract-outer{animation-duration:10s}
+.wire-octa{
+  fill:none;
+  stroke:url(#polyGrad1);
+  stroke-width:1.5;
+  stroke-dasharray:7 3;
+}
+.wire-diamond{
+  fill:rgba(55,227,208,.05);
+  stroke:url(#polyGrad2);
+  stroke-width:1.6;
+}
+.wire-square{
+  fill:none;
+  stroke:rgba(255,255,255,.45);
+  stroke-width:1.1;
+  stroke-dasharray:4 4;
+}
+.strut-line{
+  stroke:rgba(111,143,255,.4);
+  stroke-width:.9;
+  stroke-dasharray:2 4;
+}
+.tesseract-inner{
+  transform-origin:60px 60px;
+  animation:tesseract-rev 15s linear infinite;
+  transition:animation-duration .5s;
+}
+.name-shape:hover .tesseract-inner{animation-duration:6s}
+.inner-tri{
+  fill:rgba(255,95,196,.06);
+  stroke:#ff5fc4;
+  stroke-width:1.3;
+}
+.hyper-star{
+  fill:url(#polyGrad1);
+  opacity:.88;
+  filter:drop-shadow(0 0 10px #37e3d0);
+  animation:star-pulse 3s ease-in-out infinite alternate;
+}
+.singularity-core{
+  animation:singularity-pulse 2s ease-in-out infinite alternate;
+  transform-origin:60px 60px;
+}
+@keyframes gyro-spin-a{to{transform:rotateX(68deg) rotateY(18deg) rotateZ(360deg)}}
+@keyframes gyro-spin-b{to{transform:rotateX(-58deg) rotateY(38deg) rotateZ(-360deg)}}
+@keyframes gyro-spin-c{from{transform:rotateY(80deg) rotateX(15deg)}to{transform:rotateY(80deg) rotateX(-50deg)}}
+@keyframes node-orbit-1{
+  0%{transform:translateX(-50%) translateY(0) scale(.85);opacity:.7}
+  50%{transform:translateX(200%) translateY(160%) scale(1.3);opacity:1}
+  100%{transform:translateX(-240%) translateY(140%) scale(.9);opacity:.8}
+}
+@keyframes node-orbit-2{
+  0%{transform:translate(0,0) scale(1.2);opacity:.9}
+  50%{transform:translate(220%,-160%) scale(.8);opacity:.6}
+  100%{transform:translate(120%,-240%) scale(1.1);opacity:1}
+}
+@keyframes node-orbit-3{
+  0%{transform:translate(0,0) scale(.8);opacity:.6}
+  100%{transform:translate(-240%,-80%) scale(1.2);opacity:1}
+}
+@keyframes poly-float{
   0%{transform:translateY(0) scale(.95)}
-  100%{transform:translateY(-7px) scale(1.08)}
+  100%{transform:translateY(-10px) scale(1.05)}
 }
-@keyframes star-spin{
-  0%{transform:rotate(0deg)}
-  100%{transform:rotate(360deg)}
+@keyframes tesseract-spin{to{transform:rotate(360deg)}}
+@keyframes tesseract-rev{to{transform:rotate(-360deg)}}
+@keyframes star-pulse{
+  0%{transform:scale(.92);opacity:.8}
+  100%{transform:scale(1.12);opacity:1}
+}
+@keyframes singularity-pulse{
+  0%{transform:scale(.85);opacity:.7}
+  100%{transform:scale(1.25);opacity:1}
+}
+@keyframes corona-pulse{
+  0%{transform:scale(.92);opacity:.65}
+  100%{transform:scale(1.15);opacity:.95}
 }
 @media(prefers-reduced-motion:reduce){
-  .orbit-ring,.orbit-dot,.shape-core,.shape-star{animation:none!important}
+  .artifact-gyro,.orb-node,.artifact-polyhedron,.tesseract-outer,.tesseract-inner,.hyper-star,.singularity-core,.artifact-corona{animation:none!important}
 }
